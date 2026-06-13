@@ -27,14 +27,22 @@
             padding: 40px 20px;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
         }
 
+        /* 메인 래퍼: 안내판을 무조건 중앙에 배치하기 위한 상대 좌표 설정 */
+        .main-container {
+            position: relative;
+            width: 100%;
+            max-width: 780px; /* 안내 가이드의 원래 본문 너비 */
+            margin: 0 auto;
+        }
+
+        /* 메인 안내판 (화면 중앙 고정) */
         .container {
             width: 100%;
-            max-width: 780px;
             background: var(--panel-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -45,6 +53,44 @@
             display: flex;
             flex-direction: column;
             gap: 30px;
+            box-sizing: border-box;
+        }
+
+        /* 오른쪽 디스코드 사이드바 (안내판 오른쪽에 절대 좌표로 부착) */
+        .sidebar-discord {
+            position: absolute;
+            left: calc(100% + 30px); /* 안내판 우측 끝에서 30px 띄우기 */
+            top: 0;
+            width: 350px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--panel-border);
+            border-radius: 24px;
+            padding: 30px 20px;
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.04);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            box-sizing: border-box;
+        }
+
+        .sidebar-title {
+            font-size: 1.25em;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: -0.5px;
+            margin: 0;
+            text-align: center;
+            width: 100%;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .sidebar-discord iframe {
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
         /* 최상단 서버명 및 서버장 디스코드 정돈 */
@@ -152,10 +198,6 @@
             margin-top: 5px;
         }
 
-        @media (max-width: 500px) {
-            .spec-grid { grid-template-columns: 1fr; }
-        }
-
         .spec-item {
             background: rgba(255, 255, 255, 0.5);
             border: 1px solid rgba(0, 132, 255, 0.04);
@@ -199,87 +241,115 @@
             padding-top: 20px;
             margin-top: 10px;
         }
+
+        /* 화면 폭이 좁아질 때 (PC가 아니거나 디스코드 위젯이 잘릴 때) 반응형 */
+        @media (max-width: 1200px) {
+            body {
+                padding: 40px 20px;
+            }
+            .main-container {
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
+                align-items: center;
+            }
+            .sidebar-discord {
+                position: static; /* 우측 고정을 풀고 본문 아래로 배치 */
+                width: 100%;
+                max-width: 780px;
+            }
+            .sidebar-discord iframe {
+                width: 100% !important;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .spec-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- 최상단 타이틀 및 아이디 -->
-    <div class="server-header">
-        <h1>빅시티 자유공원</h1>
-        <div class="discord-badge">서버장 디스코드 : <span>.ae._.ve.</span></div>
-    </div>
+<div class="main-container">
 
-    <!-- 1. 서버 이용 규칙 -->
-    <div class="section">
-        <h2 class="section-title">서버 이용 규칙</h2>
-        <div class="sub-title">[ 기본 매너 및 금지 행위 ]</div>
-        <ul class="info-list">
-            <li><strong>욕설 및 비하 발언:</strong> 욕설은 허용하나 비하 발언은 금지합니다. (특히 일베/메갈 등 혐오 표현 및 패드립 즉시 차단)</li>
-            <li><strong>성관련 드립:</strong> 상대방이 허락하지 않는 이상 적발시 처벌 받을 수 있습니다. (pac는 웬만하면 처벌 안함 하지만 남 비하하는 텍스트를 pac에 부착 시 처벌 받습니다)</li>
-            <li><strong>제작물 보호:</strong> 다른 유저가 제작 중인 프롭이나 빌드 결과물을 허락 없이 훼손하지 마세요.</li>
-            <li><strong>기타 금지:</strong> 무분별한 프롭 스팸 및 엔티티 남용, 프롭 밀치기, 활동 방해(빌드, PAC), 갓 킬, 노클립 킬, 레그돌 및 NPC 테러를 금지합니다.</li>
-            <li><strong>신고 악용 금지:</strong> 신고 시스템(Report)을 장난이나 허위 사실로 악용할 경우 제재 대상이 됩니다.</li>
-            <li class="highlight-box">엔티티 탭의 '폭탄/폭발물' 카테고리는 서버 전체 렉을 유발하므로 사용 전 주의하세요.</li>
-        </ul>
-    </div>
+    <div class="container">
+        <div class="server-header">
+            <h1>빅시티 자유공원</h1>
+            <div class="discord-badge">서버장 디스코드 : <span>.ae._.ve.</span></div>
+        </div>
 
-    <!-- 2. 서버 안내 및 기능 -->
-    <div class="section">
-        <h2 class="section-title">서버 안내 및 편의기능</h2>
-        <ul class="info-list">
-            <li><strong>기타 문의:</strong> 기타 문의는 서버장 디코로 보내시면 됩니다.</li>
-            <li><strong>최적화 시스템:</strong> 서버 부하를 줄이기 위해 5분마다 데칼 및 NPC 시체가 자동 정리가 실행됩니다.</li>
-            <li><strong>편의 명령어:</strong> 채팅창에 <code>!menu</code>(ULX 메뉴), <code>!time</code>(현재 시간)을 입력해보세요.</li>
-            <li><strong>자유로운 환경:</strong> 본 서버는 샌드박스 기반 자유 서버로, 타인에게 피해를 주지 않는 선에서 모든 활동이 허용됩니다.</li>
-            <li class="highlight-box">신고가 필요할 땐 !신고를 사용해 유저에게 신고가 가능합니다.</li>
-            <li>현재 서버는 호스팅을 사용하지만 과도한 물리 연산이나 렉 유발 행위는 자제 부탁드립니다.</li>
-            <li>현재 서버는 PC, 스팀덱, vr기기에서 플레이가 가능합니다. (vr 사용시 콘솔에 vrmod 입력하기)</li>
-        </ul>
-    </div>
+        <div class="section">
+            <h2 class="section-title">서버 이용 규칙</h2>
+            <div class="sub-title">[ 기본 매너 및 금지 행위 ]</div>
+            <ul class="info-list">
+                <li><strong>욕설 및 비하 발언:</strong> 욕설은 허용하나 비하 발언은 금지합니다. (특히 일베/메갈 등 혐오 표현 및 패드립 즉시 차단)</li>
+                <li><strong>성관련 드립:</strong> 상대방이 허락하지 않는 이상 적발시 처벌 받을 수 있습니다. (pac는 웬만하면 처벌 안함 하지만 남 비하하는 텍스트를 pac에 부착 시 처벌 받습니다)</li>
+                <li><strong>제작물 보호:</strong> 다른 유저가 제작 중인 프롭이나 빌드 결과물을 허락 없이 훼손하지 마세요.</li>
+                <li><strong>기타 금지:</strong> 무분별한 프롭 스팸 및 엔티티 남용, 프롭 밀치기, 활동 방해(빌드, PAC), 갓 킬, 노클립 킬, 레그돌 및 NPC 테러를 금지합니다.</li>
+                <li><strong>신고 악용 금지:</strong> 신고 시스템(Report)을 장난이나 허위 사실로 악용할 경우 제재 대상이 됩니다.</li>
+                <li class="highlight-box">엔티티 탭의 '폭탄/폭발물' 카테고리는 서버 전체 렉을 유발하므로 사용 전 주의하세요.</li>
+            </ul>
+        </div>
 
-    <!-- 3. 서버 사양 -->
-    <div class="section">
-        <h2 class="section-title">서버 호스트 사양</h2>
-        <div class="spec-grid">
-            <div class="spec-item">
-                <div class="spec-label">CPU</div>
-                <div class="spec-value">Ryzen 9 7900</div>
+        <div class="section">
+            <h2 class="section-title">서버 안내 및 편의기능</h2>
+            <ul class="info-list">
+                <li><strong>기타 문의:</strong> 기타 문의는 서버장 디코로 보내시면 됩니다.</li>
+                <li><strong>최적화 시스템:</strong> 서버 부하를 줄이기 위해 5분마다 데칼 및 NPC 시체가 자동 정리가 실행됩니다.</li>
+                <li><strong>편의 명령어:</strong> 채팅창에 <code>!menu</code>(ULX 메뉴), <code>!time</code>(현재 시간)을 입력해보세요.</li>
+                <li><strong>자유로운 환경:</strong> 본 서버는 샌드박스 기반 자유 서버로, 타인에게 피해를 주지 않는 선에서 모든 활동이 허용됩니다.</li>
+                <li class="highlight-box">신고가 필요할 땐 !신고를 사용해 유저에게 신고가 가능합니다.</li>
+                <li>현재 서버는 호스팅을 사용하지만 과도한 물리 연산이나 렉 유발 행위는 자제 부탁드립니다.</li>
+                <li>현재 서버는 PC, 스팀덱, vr기기에서 플레이가 가능합니다. (vr 사용시 콘솔에 vrmod 입력하기)</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">서버 호스트 사양</h2>
+            <div class="spec-grid">
+                <div class="spec-item">
+                    <div class="spec-label">CPU</div>
+                    <div class="spec-value">Ryzen 9 7900</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">RAM</div>
+                    <div class="spec-value">12GB</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">STORAGE</div>
+                    <div class="spec-value">SSD 300GB</div>
+                </div>
             </div>
-            <div class="spec-item">
-                <div class="spec-label">RAM</div>
-                <div class="spec-value">12GB</div>
-            </div>
-            <div class="spec-item">
-                <div class="spec-label">STORAGE</div>
-                <div class="spec-value">SSD 300GB</div>
-            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">제작 및 도움</h2>
+            <ul class="info-list" style="font-size: 0.95em;">
+                <li><strong>GALOK</strong> — 창작마당 모음집 관리 및 구성</li>
+                <li><strong>다크브릭</strong> — 디스코드 연동봇 구축, 애드온 커스텀, 서버 환경 설정, 서버 호스팅</li>
+                <li><strong>Jellen</strong> — 서버 전용 레그돌 스크립트 최적화</li>
+                <li><strong>럭키 세븐</strong> — 서버 관리자</li>
+                <li><strong>klonox / DEAT</strong> — ULX 권한 설정 및 애드온 설정</li>
+                <li><strong>기계식흑설탕</strong> — 서버 호스팅 지원</li>
+            </ul>
+        </div>
+
+        <div class="section" style="text-align: center;">
+            <h2 class="section-title" style="text-align: center;">커뮤니티 및 모음집</h2>
+            <p style="color: var(--text-muted); font-size: 0.9em; margin: 0 0 5px 0;">아래 링크를 복사해서 스팀 브라우저에 붙여넣어 모음집을 구독하세요.</p>
+            <div class="link-wrapper">https://steamcommunity.com/sharedfiles/filedetails/?id=3661460068</div>
+        </div>
+
+        <div class="footer">
+            &copy; 2026 빅시티 자유공원. All Rights Reserved.
         </div>
     </div>
 
-    <!-- 4. 크레딧 -->
-    <div class="section">
-        <h2 class="section-title">제작 및 도움</h2>
-        <ul class="info-list" style="font-size: 0.95em;">
-            <li><strong>GALOK</strong> — 창작마당 모음집 관리 및 구성</li>
-            <li><strong>다크브릭</strong> — 디스코드 연동봇 구축, 애드온 커스텀, 서버 환경 설정, 서버 호스팅</li>
-            <li><strong>Jellen</strong> — 서버 전용 레그돌 스크립트 최적화</li>
-            <li><strong>럭키 세븐</strong> — 서버 관리자</li>
-            <li><strong>klonox / DEAT</strong> — ULX 권한 설정 및 애드온 설정</li>
-            <li><strong>기계식흑설탕</strong> — 서버 호스팅 지원</li>
-        </ul>
+    <div class="sidebar-discord">
+        <div class="sidebar-title">디스코드 미리보기</div>
+        <iframe src="https://discord.com/widget?id=1471161933372592313&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
     </div>
 
-    <!-- 5. 모음집 링크 -->
-    <div class="section" style="text-align: center;">
-        <h2 class="section-title" style="text-align: center;">커뮤니티 및 모음집</h2>
-        <p style="color: var(--text-muted); font-size: 0.9em; margin: 0 0 5px 0;">아래 링크를 복사해서 스팀 브라우저에 붙여넣어 모음집을 구독하세요.</p>
-        <div class="link-wrapper">https://steamcommunity.com/sharedfiles/filedetails/?id=3661460068</div>
-    </div>
-
-    <div class="footer">
-        &copy; 2026 빅시티 자유공원. All Rights Reserved.
-    </div>
 </div>
 
 </body>
