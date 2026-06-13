@@ -32,15 +32,15 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* 메인 래퍼: 안내판을 무조건 중앙에 배치하기 위한 상대 좌표 설정 */
+        /* 메인 래퍼 */
         .main-container {
             position: relative;
             width: 100%;
-            max-width: 780px; /* 안내 가이드의 원래 본문 너비 */
+            max-width: 780px;
             margin: 0 auto;
         }
 
-        /* 메인 안내판 (화면 중앙 고정) */
+        /* 메인 안내판 */
         .container {
             width: 100%;
             background: var(--panel-bg);
@@ -56,10 +56,10 @@
             box-sizing: border-box;
         }
 
-        /* 오른쪽 디스코드 사이드바 (안내판 오른쪽에 절대 좌표로 부착) */
+        /* 오른쪽 디스코드 사이드바 */
         .sidebar-discord {
             position: absolute;
-            left: calc(100% + 30px); /* 안내판 우측 끝에서 30px 띄우기 */
+            left: calc(100% + 30px);
             top: 0;
             width: 350px;
             background: var(--panel-bg);
@@ -86,6 +86,32 @@
             width: 100%;
             padding-bottom: 10px;
             border-bottom: 1px solid var(--divider);
+        }
+
+        /* 스팀 오버레이 전용 버튼 스타일 */
+        .steam-overlay-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            background: #5865F2; /* 디스코드 브랜드 컬러 */
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95em;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 4px 12px rgba(88, 101, 242, 0.2);
+        }
+
+        .steam-overlay-btn:hover {
+            background: #4752c4;
+        }
+
+        .steam-overlay-btn:active {
+            transform: scale(0.98);
         }
 
         .sidebar-discord iframe {
@@ -242,7 +268,7 @@
             margin-top: 10px;
         }
 
-        /* 화면 폭이 좁아질 때 (PC가 아니거나 디스코드 위젯이 잘릴 때) 반응형 */
+        /* 반응형 */
         @media (max-width: 1200px) {
             body {
                 padding: 40px 20px;
@@ -254,7 +280,7 @@
                 align-items: center;
             }
             .sidebar-discord {
-                position: static; /* 우측 고정을 풀고 본문 아래로 배치 */
+                position: static;
                 width: 100%;
                 max-width: 780px;
             }
@@ -347,7 +373,12 @@
 
     <div class="sidebar-discord">
         <div class="sidebar-title">디스코드 미리보기</div>
-        <iframe src="https://discord.com/widget?id=1471161933372592313&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+        
+        <a href="steam://openurl/https://discord.gg/YOUR_INVITE_CODE" class="steam-overlay-btn">
+            <span>스팀 오버레이로 서버 가입</span>
+        </a>
+
+        <iframe src="https://discord.com/widget?id=1471161933372592313&theme=dark" width="350" height="460" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
     </div>
 
 </div>
